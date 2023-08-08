@@ -1,10 +1,14 @@
 package ma.sir.ged.ws.facade.open;
 
+import io.minio.errors.*;
 import ma.sir.ged.service.facade.open.MinIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
@@ -19,7 +23,6 @@ public class MinioController {
 
     @Autowired
     private MinIOService minIOService;
-
 
     //--- Check if bucket exists or not ---
     //curl "http://localhost:8036/minio/bucket/my-bucket"
@@ -54,6 +57,24 @@ public class MinioController {
     @GetMapping("/downloadAll/bucket/{bucket}")
     public byte[] downloadAllDocumentsAsZip(@PathVariable String bucket) {
         return minIOService.downloadAllDocumentsAsZip(bucket);
+    }
+
+    //  curl -o D:/GED/documents.zip http://localhost:8036/minio/download/files/bucket/bucket03/?files=file01.pdf,culture.pptx
+    @GetMapping("/download/files/bucket/{bucket}")
+    public byte[] downloadDocumentsAsZip(@PathVariable String bucket, @RequestParam("files") List<String> filenames) {
+        return minIOService.downloadDocumentsAsZip(bucket, filenames);
+    }
+
+    //  curl -X POST -F "directoryPath=D:/GED/Figma" http://localhost:8036/minio/folder/bucket/bucket03
+    @PostMapping("/folder/bucket/{bucket}")
+    public void uploadDirectory(@RequestParam("directoryPath") String directoryPath, @PathVariable String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException {
+        minIOService.uploadDirectory(directoryPath, bucket);
+    }
+
+    //  curl -X POST "http://localhost:8036/minio/delete/bucket/bucket03/file/file03.pdf"
+    @PostMapping("/delete/bucket/{bucket}/file/{file}")
+    public int deleteFileFromBucket(@PathVariable String file, @PathVariable String bucket) throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        return minIOService.deleteFileFromBucket(file, bucket);
     }
 
 }
