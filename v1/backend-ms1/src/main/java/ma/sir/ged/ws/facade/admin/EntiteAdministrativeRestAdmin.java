@@ -30,8 +30,6 @@ import ma.sir.ged.zynerator.dto.FileTempDto;
 @RequestMapping("/api/admin/entiteAdministrative/")
 public class EntiteAdministrativeRestAdmin  extends AbstractController<EntiteAdministrative, EntiteAdministrativeDto, EntiteAdministrativeHistory, EntiteAdministrativeCriteria, EntiteAdministrativeHistoryCriteria, EntiteAdministrativeAdminService, EntiteAdministrativeConverter> {
 
-
-
     @ApiOperation("upload one entiteAdministrative")
     @RequestMapping(value = "upload", method = RequestMethod.POST, consumes = "multipart/form-data")
     public ResponseEntity<FileTempDto> uploadFileAndGetChecksum(@RequestBody MultipartFile file) throws Exception {
@@ -60,6 +58,7 @@ public class EntiteAdministrativeRestAdmin  extends AbstractController<EntiteAdm
     public ResponseEntity<EntiteAdministrativeDto> findById(@PathVariable Long id, String[] includes, String[] excludes) throws Exception {
         return super.findById(id, includes, excludes);
     }
+
     @ApiOperation("Saves the specified  entiteAdministrative")
     @PostMapping("")
     public ResponseEntity<EntiteAdministrativeDto> save(@RequestBody EntiteAdministrativeDto dto) throws Exception {
@@ -162,6 +161,7 @@ public class EntiteAdministrativeRestAdmin  extends AbstractController<EntiteAdm
     public ResponseEntity<Integer> getHistoryDataSize(@RequestBody EntiteAdministrativeHistoryCriteria criteria) throws Exception {
         return super.getHistoryDataSize(criteria);
     }
+
     public EntiteAdministrativeRestAdmin (EntiteAdministrativeAdminService service, EntiteAdministrativeConverter converter) {
         super(service, converter);
     }

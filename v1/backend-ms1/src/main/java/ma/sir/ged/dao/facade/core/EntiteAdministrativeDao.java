@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface EntiteAdministrativeDao extends AbstractRepository<EntiteAdministrative,Long>  {
+
     EntiteAdministrative findByCode(String code);
     int deleteByCode(String code);
 

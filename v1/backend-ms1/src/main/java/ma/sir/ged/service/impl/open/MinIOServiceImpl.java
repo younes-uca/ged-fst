@@ -8,14 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -284,6 +282,55 @@ public class MinIOServiceImpl implements MinIOService {
         } catch (Exception e) {
             System.err.println("Unexpected error: " + e.getMessage());
             return -4; // Return -1 to indicate an error
+        }
+    }
+
+    // Create folder in bucket
+    @Override
+    public int createFolderInBucket(String folderName, String bucketName) {
+        try {
+            byte[] data = new byte[0];
+            PutObjectArgs args = PutObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(folderName + "/")
+                    .stream(new ByteArrayInputStream(data), data.length, -1)
+                    .contentType("application/octet-stream") // Content type for folders
+                    .build();
+
+            minioClient.putObject(args);
+            System.out.println("Created folder " + folderName + " in bucket " + bucketName);
+            return 1;
+        } catch (MinioException e) {
+            System.err.println("Error creating folder " + folderName + " in bucket " + bucketName + ": " + e.getMessage());
+            return -1; // Return -1 to indicate an error
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+            return -1; // Return -1 to indicate an error
+        }
+    }
+
+    @Override
+    public boolean checkFolderExistsInBucket(String folderName, String bucketName) {
+        try {
+            // List objects in the bucket with the prefix of the folder name
+            Iterable<Result<Item>> results = minioClient.listObjects(ListObjectsArgs.builder()
+                    .bucket(bucketName)
+                    .prefix(folderName + "/")
+                    .recursive(false) // Set to false to only list immediate objects
+                    .build());
+
+            // If there is at least one result, the folder exists
+            Iterator<Result<Item>> iterator = results.iterator();
+            if (iterator.hasNext()) {
+                System.out.println("Folder " + folderName + " exists in bucket " + bucketName);
+                return true;
+            } else {
+                System.out.println("Folder " + folderName + " does not exist in bucket " + bucketName);
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+            return false; // Return false to indicate an error or unknown status
         }
     }
 

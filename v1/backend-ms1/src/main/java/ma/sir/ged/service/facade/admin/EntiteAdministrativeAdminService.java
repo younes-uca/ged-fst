@@ -13,7 +13,4 @@ public interface EntiteAdministrativeAdminService extends  IService<EntiteAdmini
     int deleteByUtilisateurId(Long id);
     List<EntiteAdministrative> findByEntiteAdministrativeTypeId(Long id);
     int deleteByEntiteAdministrativeTypeId(Long id);
-
-
-
 }

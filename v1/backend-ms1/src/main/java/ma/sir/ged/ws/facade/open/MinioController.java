@@ -77,4 +77,15 @@ public class MinioController {
         return minIOService.deleteFileFromBucket(file, bucket);
     }
 
+    //  curl -X POST "http://localhost:8036/api/open/minio/save/folder/bucket/ged/folder/testFolder"
+    @PostMapping("/save/folder/bucket/{bucket}/folder/{folder}")
+    public int createFolderInBucket(@PathVariable String folder, @PathVariable String bucket) {
+        return minIOService.createFolderInBucket(folder, bucket);
+    }
+
+    //  curl -X GET "http://localhost:8036/api/open/minio/exists/folder/testFolder/bucket/ged"
+    @GetMapping("/exists/folder/{folder}/bucket/{bucket}")
+    public boolean checkFolderExistsInBucket(@PathVariable String folder, @PathVariable String bucket) {
+        return minIOService.checkFolderExistsInBucket(folder, bucket);
+    }
 }

@@ -18,13 +18,9 @@ public class EntiteAdministrativeDto  extends AuditBaseDto {
     private UtilisateurDto utilisateur ;
     private EntiteAdministrativeTypeDto entiteAdministrativeType ;
 
-
-
     public EntiteAdministrativeDto(){
         super();
     }
-
-
 
     @Log
     public String getCode(){
@@ -81,8 +77,6 @@ public class EntiteAdministrativeDto  extends AuditBaseDto {
     public void setEntiteAdministrativeType(EntiteAdministrativeTypeDto entiteAdministrativeType){
         this.entiteAdministrativeType = entiteAdministrativeType;
     }
-
-
 
 
 }

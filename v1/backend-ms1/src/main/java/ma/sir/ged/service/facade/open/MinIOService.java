@@ -25,4 +25,9 @@ public interface MinIOService {
     void uploadDirectory(String directoryPath, String bucket) throws IOException, NoSuchAlgorithmException, InvalidKeyException, MinioException;
 
     int deleteFileFromBucket(String file, String bucket);
+
+    // Create folder in bucket
+    int createFolderInBucket(String folderName, String bucketName);
+
+    boolean checkFolderExistsInBucket(String folderName, String bucketName);
 }
