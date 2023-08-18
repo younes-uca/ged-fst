@@ -24,7 +24,9 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         authService.signOut();
         router.push("/auth");
     }
-
+    const showProfile = () => {
+        router.push('/profile')
+    }
 
     useImperativeHandle(ref, () => ({
         /*menubutton: menubuttonRef.current,
@@ -53,7 +55,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             </button>
 
             <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
-                <button type="button" className="p-link layout-topbar-button">
+                <button type="button" className="p-link layout-topbar-button" onClick={showProfile}>
                     <i className="pi pi-user"></i>
                     <span>Profile</span>
                 </button>

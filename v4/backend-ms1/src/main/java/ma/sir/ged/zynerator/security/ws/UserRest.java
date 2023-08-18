@@ -30,7 +30,8 @@ public class UserRest {
         return this.userService.findAll();
     }
 
-    public User findByUsername(String username) {
+    @GetMapping("/findByUsername/{username}")
+    public User findByUsername(@PathVariable String username) {
         return userService.findByUsername(username);
     }
 
