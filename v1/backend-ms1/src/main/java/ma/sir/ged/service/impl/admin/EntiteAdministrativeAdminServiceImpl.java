@@ -60,15 +60,16 @@ EntiteAdministrativeHistoryDao> implements EntiteAdministrativeAdminService {
 
     private void createFoldersRecursively(EntiteAdministrative entity, String bucketName) {
         if (entity != null) {
-
+            // Get the parent entity
             EntiteAdministrative parentEntity = dao.findByCode(entity.getCodeEntiteAdminParent());
+
+            // Recurse to the parent entity
             if (parentEntity != null) {
-                // Recurse to the parent entity to create folders
                 createFoldersRecursively(parentEntity, bucketName);
             }
 
-            String folderPath = constructFolderPath(entity);
-
+            // Create the folder only if it doesn't exist
+            String folderPath = constructFolderPath(entity, parentEntity);
             boolean folderExists = minIOService.checkFolderExistsInBucket(folderPath, bucketName);
 
             if (!folderExists) {
@@ -77,14 +78,16 @@ EntiteAdministrativeHistoryDao> implements EntiteAdministrativeAdminService {
         }
     }
 
-    private String constructFolderPath(EntiteAdministrative entity) {
-        StringBuilder pathBuilder = new StringBuilder(entity.getReferenceGed());
-        EntiteAdministrative parentEntity = dao.findByCode(entity.getCodeEntiteAdminParent());
+    private String constructFolderPath(EntiteAdministrative entity, EntiteAdministrative parentEntity) {
+        StringBuilder pathBuilder = new StringBuilder(entity.getCode());
 
         while (parentEntity != null) {
-            pathBuilder.insert(0, parentEntity.getReferenceGed() + "/");
+            pathBuilder.insert(0, parentEntity.getCode() + "/");
             parentEntity = dao.findByCode(parentEntity.getCodeEntiteAdminParent());
         }
+
+        System.out.println("Hierarchy path : ");
+        System.out.println(pathBuilder);
         return pathBuilder.toString();
     }
 

@@ -290,9 +290,10 @@ public class MinIOServiceImpl implements MinIOService {
     public int createFolderInBucket(String folderName, String bucketName) {
         try {
             byte[] data = new byte[0];
+            String folder = folderName + "/";
             PutObjectArgs args = PutObjectArgs.builder()
                     .bucket(bucketName)
-                    .object(folderName + "/")
+                    .object(folder)
                     .stream(new ByteArrayInputStream(data), data.length, -1)
                     .contentType("application/octet-stream") // Content type for folders
                     .build();
@@ -302,10 +303,10 @@ public class MinIOServiceImpl implements MinIOService {
             return 1;
         } catch (MinioException e) {
             System.err.println("Error creating folder " + folderName + " in bucket " + bucketName + ": " + e.getMessage());
-            return -1; // Return -1 to indicate an error
+            return -1;
         } catch (Exception e) {
             System.err.println("Unexpected error: " + e.getMessage());
-            return -1; // Return -1 to indicate an error
+            return -1;
         }
     }
 

@@ -338,7 +338,7 @@ return(
                         {submitted && !item.reference && <small className="p-invalid">Reference is required.</small>}
                     </div>
                         <div className="field col-6">
-                            <FileUpload name="file" url={"http://localhost:8037/minio/upload/file/ged"}
+                            <FileUpload name="file" url={"http://localhost:8036/minio/upload/file/ged"}
                                         maxFileSize={1000000} emptyTemplate={<p className="m-0">vous pouvez glisser deposer votre document</p>} />
                         </div>
                     <div className="field col-6">
