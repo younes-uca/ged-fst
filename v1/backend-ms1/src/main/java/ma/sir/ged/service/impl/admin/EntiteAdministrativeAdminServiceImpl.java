@@ -11,35 +11,38 @@ import ma.sir.ged.service.facade.admin.EntiteAdministrativeAdminService;
 import ma.sir.ged.service.impl.open.MinIOServiceImpl;
 import ma.sir.ged.zynerator.service.AbstractServiceImpl;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import ma.sir.ged.service.facade.admin.EntiteAdministrativeTypeAdminService ;
-import ma.sir.ged.service.facade.admin.UtilisateurAdminService ;
+import ma.sir.ged.service.facade.admin.EntiteAdministrativeTypeAdminService;
+import ma.sir.ged.service.facade.admin.UtilisateurAdminService;
 
 @Service
-public class EntiteAdministrativeAdminServiceImpl extends AbstractServiceImpl<EntiteAdministrative,EntiteAdministrativeHistory, EntiteAdministrativeCriteria, EntiteAdministrativeHistoryCriteria, EntiteAdministrativeDao,
-EntiteAdministrativeHistoryDao> implements EntiteAdministrativeAdminService {
+public class EntiteAdministrativeAdminServiceImpl extends AbstractServiceImpl<EntiteAdministrative, EntiteAdministrativeHistory, EntiteAdministrativeCriteria, EntiteAdministrativeHistoryCriteria, EntiteAdministrativeDao,
+        EntiteAdministrativeHistoryDao> implements EntiteAdministrativeAdminService {
 
 
-
-    public EntiteAdministrative findByReferenceEntity(EntiteAdministrative t){
-        return  dao.findByCode(t.getCode());
+    public EntiteAdministrative findByReferenceEntity(EntiteAdministrative t) {
+        return dao.findByCode(t.getCode());
     }
 
-    public List<EntiteAdministrative> findByUtilisateurId(Long id){
+    public List<EntiteAdministrative> findByUtilisateurId(Long id) {
         return dao.findByUtilisateurId(id);
     }
-    public int deleteByUtilisateurId(Long id){
+
+    public int deleteByUtilisateurId(Long id) {
         return dao.deleteByUtilisateurId(id);
     }
-    public List<EntiteAdministrative> findByEntiteAdministrativeTypeId(Long id){
+
+    public List<EntiteAdministrative> findByEntiteAdministrativeTypeId(Long id) {
         return dao.findByEntiteAdministrativeTypeId(id);
     }
-    public int deleteByEntiteAdministrativeTypeId(Long id){
+
+    public int deleteByEntiteAdministrativeTypeId(Long id) {
         return dao.deleteByEntiteAdministrativeTypeId(id);
     }
 
@@ -92,13 +95,13 @@ EntiteAdministrativeHistoryDao> implements EntiteAdministrativeAdminService {
     }
 
     public void configure() {
-        super.configure(EntiteAdministrative.class,EntiteAdministrativeHistory.class, EntiteAdministrativeHistoryCriteria.class, EntiteAdministrativeSpecification.class);
+        super.configure(EntiteAdministrative.class, EntiteAdministrativeHistory.class, EntiteAdministrativeHistoryCriteria.class, EntiteAdministrativeSpecification.class);
     }
 
     @Autowired
-    private EntiteAdministrativeTypeAdminService entiteAdministrativeTypeService ;
+    private EntiteAdministrativeTypeAdminService entiteAdministrativeTypeService;
     @Autowired
-    private UtilisateurAdminService utilisateurService ;
+    private UtilisateurAdminService utilisateurService;
 
     @Autowired
     private MinIOServiceImpl minIOService;

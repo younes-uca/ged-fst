@@ -28,6 +28,7 @@
         <itextpdf-xmlworker.version>5.5.10</itextpdf-xmlworker.version>
         <minio.version>8.5.2</minio.version>
         <okhttp3.version>4.10.0</okhttp3.version>
+        <ocr.version>3.4.0</ocr.version>
     </properties>
 
     <dependencies>
@@ -42,6 +43,30 @@
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>${minio.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>${ocr.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-elasticsearch</artifactId>
+            <version>5.1.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>8.6.2</version>
+        </dependency>
+
+         <dependency>
+            <groupId>co.elastic.clients</groupId>
+            <artifactId>elasticsearch-java</artifactId>
+            <version>8.6.2</version>
         </dependency>
 
         <dependency>
