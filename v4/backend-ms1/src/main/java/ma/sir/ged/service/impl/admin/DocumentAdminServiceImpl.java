@@ -35,6 +35,7 @@ import ma.sir.ged.service.facade.admin.DocumentPartageGroupeAdminService ;
 import ma.sir.ged.service.facade.admin.UtilisateurAdminService ;
 import ma.sir.ged.service.facade.admin.DocumentIndexElementAdminService ;
 import ma.sir.ged.service.facade.admin.DocumentStateAdminService ;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
@@ -43,6 +44,8 @@ public class DocumentAdminServiceImpl extends AbstractServiceImpl<Document,Docum
 DocumentHistoryDao> implements DocumentAdminService {
 
 
+    @Autowired
+    private RestTemplate restTemplate;
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, readOnly = false)
     public Document create(Document t) {
         super.create(t);
@@ -70,6 +73,7 @@ DocumentHistoryDao> implements DocumentAdminService {
                     documentTagService.create(element);
             });
         }
+        Document document= restTemplate.postForEntity("http://localhost:8037",t,Document.class).getBody();
         return t;
     }
 
