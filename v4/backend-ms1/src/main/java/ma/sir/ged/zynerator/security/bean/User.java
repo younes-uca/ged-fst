@@ -28,7 +28,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "user_app")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User  extends AuditBusinessObject  implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
