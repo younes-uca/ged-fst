@@ -3,10 +3,10 @@ import {ReactNode} from 'react';
 
 import Layout from 'layout/layout';
 import AuthGuard from 'app/component/auth/auth-guard.component';
-import AppProfile from "../../layout/AppProfile";
+import AppProfileUtilisateur from "../../layout/AppProfileUtilisateur";
 
 const Profile: NextPageWithLayout = () => {
-    return <AppProfile />
+    return <AppProfileUtilisateur />
 }
 
 Profile.getLayout = function getLayout(page: ReactNode) {

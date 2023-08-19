@@ -77,6 +77,7 @@ UtilisateurHistoryDao> implements UtilisateurAdminService {
         return mySaved;
      }
 
+    @Override
     public Utilisateur findByUsername(String username){
     return dao.findByUsername(username);
     }

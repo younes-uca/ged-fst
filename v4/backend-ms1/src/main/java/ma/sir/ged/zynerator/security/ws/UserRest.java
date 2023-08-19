@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import ma.sir.ged.zynerator.security.common.AuthoritiesConstants;
+import ma.sir.ged.ws.dto.UtilisateurDto;
 import ma.sir.ged.zynerator.security.bean.User;
 import ma.sir.ged.zynerator.security.service.facade.UserService;
 
-@RequestMapping("/api/users")
+@RequestMapping("/api/admin/users")
 @RestController
 // @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
 public class UserRest {
@@ -29,6 +31,13 @@ public class UserRest {
     public List<User> findAll(){
         return this.userService.findAll();
     }
+    
+    @Operation(summary = "Change password to the specified  utilisateur")
+    @PutMapping("/changePassword")
+    public boolean changePassword(@RequestBody UtilisateurDto dto) throws Exception {
+        return userService.changePassword(dto.getUsername(),dto.getPassword());
+    }
+    
 
     @GetMapping("/findByUsername/{username}")
     public User findByUsername(@PathVariable String username) {

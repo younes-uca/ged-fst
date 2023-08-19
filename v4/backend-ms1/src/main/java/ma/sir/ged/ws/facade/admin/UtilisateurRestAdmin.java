@@ -117,6 +117,13 @@ public class UtilisateurRestAdmin  extends AbstractController<Utilisateur, Utili
     public int deleteByEntiteAdministrativeId(@PathVariable Long id){
         return service.deleteByEntiteAdministrativeId(id);
     }
+    
+    @Operation(summary = "find by username")
+    @GetMapping("findByUsername/{username}")
+    public Utilisateur findByUsername(@PathVariable String username){
+        return service.findByUsername(username);
+    }
+
     @Operation(summary = "Finds utilisateurs by criteria")
     @PostMapping("find-by-criteria")
     public ResponseEntity<List<UtilisateurDto>> findByCriteria(@RequestBody UtilisateurCriteria criteria) throws Exception {
