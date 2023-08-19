@@ -3,7 +3,6 @@ import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import React, {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {Calendar} from "primereact/calendar";
 import {Password} from "primereact/password";
 import {Toast} from "primereact/toast";
 import {InputSwitch} from "primereact/inputswitch";
@@ -24,7 +23,7 @@ const Index = () => {
     const [updatedUser, setUpdatedUser] = useState<UtilisateurDto>([]);
 
     const authService = new AuthService();
-    const utilisateurAdminService= new UtilisateurAdminService();
+    const utilisateurAdminService = new UtilisateurAdminService();
     const [isEditMode, setIsEditMode] = useState(false);
     const [confirmPwd, setConfirmPwd] = useState('');
     //  const showToast = useRef<Toast>();
@@ -34,12 +33,11 @@ const Index = () => {
         setIsEditMode(true);
     };
     const handlePwdChange = () => {
-        if(password == confirmPwd) {
+        if (password == confirmPwd) {
 
-            utilisateurAdminService.changePassword(username,password)
+            utilisateurAdminService.changePassword(username, password)
             MessageService.showSuccess(showToast, 'Password Changed ')
-        }
-        else if(password != confirmPwd) {
+        } else if (password != confirmPwd) {
             MessageService.showError(showToast, 'Error password');
         }
 
@@ -50,25 +48,22 @@ const Index = () => {
     useEffect(() => {
         const tokenDecoded = authService.decodeJWT();
         console.log(tokenDecoded)
-        var type = tokenDecoded.type;
         connectedUtilisateur.username = tokenDecoded.sub;
         connectedUtilisateur.enabled = tokenDecoded.enabled;
         connectedUtilisateur.email = tokenDecoded.email;
+        connectedUtilisateur.nom = tokenDecoded.nom;
+        connectedUtilisateur.prenom = tokenDecoded.prenom;
 
-        if(type === "utilisateur"){
-           connectedUtilisateur.nom = tokenDecoded.nom;
-           connectedUtilisateur.prenom = tokenDecoded.prenom;
-        }
-
+        setConnectedUtilisateur(prevState => ({...prevState,username:tokenDecoded.sub, enabled : tokenDecoded.enabled, email:tokenDecoded.email, nom : tokenDecoded.nom, prenom : tokenDecoded.prenom}))
 
     }, []);
 
     // setUpdatedUser(userData);
-    const handleUpdateClick = () =>{
+    const handleUpdateClick = () => {
 
 
         console.log(updatedUser)
-        axios.put("http://localhost:8036/api/admin/utilisateur",userData, {
+        axios.put("http://localhost:8036/api/admin/utilisateur", userData, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -79,48 +74,52 @@ const Index = () => {
     }
 
 
-
     return (
 
         <div>
-            <Toast ref={showToast} />
+            <Toast ref={showToast}/>
             <TabView>
-                <TabPanel header="Profile" >
+                <TabPanel header="Profile">
                     <div className="formgrid grid">
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="username">Username</label>
-                                <InputText id="username" value={connectedUtilisateur.username}  onChange={(event) => connectedUtilisateur.username=(event.target.value)} />
+                                <InputText id="username" value={connectedUtilisateur.username}
+                                           onChange={(event) => connectedUtilisateur.username = (event.target.value)}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="email">Email</label>
-                                <InputText id="email" value={connectedUtilisateur.email} disabled={!isEditMode} onChange={(event) => connectedUtilisateur.email=(event.target.value)} />
+                                <InputText id="email" value={connectedUtilisateur.email} disabled={!isEditMode}
+                                           onChange={(event) => connectedUtilisateur.email = (event.target.value)}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="enabled">Enabled</label>
                                 <span className="p-float-label">
-                        <InputSwitch  id="enabled" checked={connectedUtilisateur.enabled} disabled={!isEditMode}  onChange={(event) => connectedUtilisateur.enabled=(event.value)}/>
-                        </span>                            </div>
+                        <InputSwitch id="enabled" checked={connectedUtilisateur.enabled} disabled={!isEditMode}
+                                     onChange={(event) => connectedUtilisateur.enabled = (event.value)}/>
+                        </span></div>
                         </div>
 
 
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="nom">Nom</label>
-                                <InputText id="nom" value={connectedUtilisateur.nom} disabled={!isEditMode} onChange={(event) => connectedUtilisateur.nom=(event.target.value)} />
+                                <InputText id="nom" value={connectedUtilisateur.nom} disabled={!isEditMode}
+                                           onChange={(event) => connectedUtilisateur.nom = (event.target.value)}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="prenom">Prenom</label>
-                                <InputText id="prenom" value={connectedUtilisateur.prenom} disabled={!isEditMode} onChange={(event) => connectedUtilisateur.nom=(event.target.value)}/>
+                                <InputText id="prenom" value={connectedUtilisateur.prenom} disabled={!isEditMode}
+                                           onChange={(event) => connectedUtilisateur.nom = (event.target.value)}/>
                             </div>
                         </div>
-                        <div className="field col-4" style={{ marginTop: '6px' }}>
+                        <div className="field col-4" style={{marginTop: '6px'}}>
                             <br/>
                         </div>
                     </div>
@@ -133,21 +132,23 @@ const Index = () => {
                             <div className="field col-8">
                                 <label htmlFor="new_password">New Password</label>
 
-                                <Password value={password} onChange={(event) => setPassword(event.target.value)} toggleMask />
+                                <Password value={password} onChange={(event) => setPassword(event.target.value)}
+                                          toggleMask/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-8">
                                 <label htmlFor="new_password">Confirm Password</label>
 
-                                <Password value={confirmPwd} onChange={(event) => setConfirmPwd(event.target.value)}  toggleMask />
+                                <Password value={confirmPwd} onChange={(event) => setConfirmPwd(event.target.value)}
+                                          toggleMask/>
                             </div>
                         </div>
                         <div className="field col-4">
-                            <div className="field col-8" style={{ marginTop: '7px' }}  >
+                            <div className="field col-8" style={{marginTop: '7px'}}>
                                 <br/>
 
-                                <Button label="Change" onClick={handlePwdChange} />
+                                <Button label="Change" onClick={handlePwdChange}/>
                             </div>
                         </div>
                     </div>

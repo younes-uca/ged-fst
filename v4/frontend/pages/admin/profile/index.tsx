@@ -2,8 +2,6 @@ import {TabPanel, TabView} from "primereact/tabview";
 import {InputText} from "primereact/inputtext";
 import {Button} from "primereact/button";
 import React, {useEffect, useRef, useState} from "react";
-import axios from "axios";
-import {Calendar} from "primereact/calendar";
 import {Password} from "primereact/password";
 import {Toast} from "primereact/toast";
 import {InputSwitch} from "primereact/inputswitch";
@@ -22,7 +20,7 @@ const Index = () => {
     const [password, setPassword] = useState('');
 
     const authService = new AuthService();
-    const utilisateurAdminService= new UtilisateurAdminService();
+    const utilisateurAdminService = new UtilisateurAdminService();
     const [isEditMode, setIsEditMode] = useState(false);
     const [confirmPwd, setConfirmPwd] = useState('');
     //  const showToast = useRef<Toast>();
@@ -32,55 +30,50 @@ const Index = () => {
         setIsEditMode(true);
     };
     const handlePwdChange = () => {
-        if(password == confirmPwd) {
+        if (password == confirmPwd) {
 
-            authService.changePassword(username,password)
+            authService.changePassword(username, password)
             MessageService.showSuccess(showToast, 'Password Changed ')
-        }
-        else if(password != confirmPwd) {
+        } else if (password != confirmPwd) {
             MessageService.showError(showToast, 'Error password');
         }
 
     }
 
-
-    const username = authService.getUsername();
     useEffect(() => {
         const tokenDecoded = authService.decodeJWT();
         console.log(tokenDecoded)
-        var type = tokenDecoded.type;
-        connectedUser.username = tokenDecoded.sub;
-        connectedUser.enabled = tokenDecoded.enabled;
-        connectedUser.email = tokenDecoded.email;
-
-     
+        setConnectedUser(prevState => ({...prevState,username:tokenDecoded.sub, enabled : tokenDecoded.enabled, email:tokenDecoded.email}))
     }, []);
 
     return (
 
         <div>
-            <Toast ref={showToast} />
+            <Toast ref={showToast}/>
             <TabView>
-                <TabPanel header="Profile" >
+                <TabPanel header="Profile">
                     <div className="formgrid grid">
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="username">Username</label>
-                                <InputText id="username" value={connectedUser.username}  onChange={(event) => connectedUser.username=(event.target.value)} />
+                                <InputText id="username" value={connectedUser.username}
+                                           onChange={(event) => connectedUser.username = (event.target.value)}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="email">Email</label>
-                                <InputText id="email" value={connectedUser.email} disabled={!isEditMode} onChange={(event) => connectedUser.email=(event.target.value)} />
+                                <InputText id="email" value={connectedUser.email} disabled={!isEditMode}
+                                           onChange={(event) => connectedUser.email = (event.target.value)}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="enabled">Enabled</label>
                                 <span className="p-float-label">
-                        <InputSwitch  id="enabled" checked={connectedUser.enabled} disabled={!isEditMode}  onChange={(event) => connectedUser.enabled=(event.value)}/>
-                        </span>                            </div>
+                        <InputSwitch id="enabled" checked={connectedUser.enabled} disabled={!isEditMode}
+                                     onChange={(event) => connectedUser.enabled = (event.value)}/>
+                        </span></div>
                         </div>
 
 
@@ -94,21 +87,23 @@ const Index = () => {
                             <div className="field col-8">
                                 <label htmlFor="new_password">New Password</label>
 
-                                <Password value={password} onChange={(event) => setPassword(event.target.value)} toggleMask />
+                                <Password value={password} onChange={(event) => setPassword(event.target.value)}
+                                          toggleMask/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-8">
                                 <label htmlFor="new_password">Confirm Password</label>
 
-                                <Password value={confirmPwd} onChange={(event) => setConfirmPwd(event.target.value)}  toggleMask />
+                                <Password value={confirmPwd} onChange={(event) => setConfirmPwd(event.target.value)}
+                                          toggleMask/>
                             </div>
                         </div>
                         <div className="field col-4">
-                            <div className="field col-8" style={{ marginTop: '7px' }}  >
+                            <div className="field col-8" style={{marginTop: '7px'}}>
                                 <br/>
 
-                                <Button label="Change" onClick={handlePwdChange} />
+                                <Button label="Change" onClick={handlePwdChange}/>
                             </div>
                         </div>
                     </div>
