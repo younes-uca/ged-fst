@@ -2,13 +2,21 @@ import axios, {AxiosResponse} from "axios";
 import {PaginatedList} from "../dto/PaginatedList.model";
 import {BaseDto} from "../dto/BaseDto.model";
 import {BaseCriteria} from "../criteria/BaseCriteria.model";
-import {UtilisateurDto} from "../../controller/model/Utilisateur.model";
 
+axios.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("token"); // Replace with your actual authorization token
+        if (token) {
+            config.headers['Authorization'] = token;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 class AbstractService<T extends BaseDto, C extends BaseCriteria> {
     private _url: string
-
-
-
 
     constructor(private baseUrl: string, private beanName: string) {
         this._url = baseUrl + beanName;
@@ -56,6 +64,7 @@ class AbstractService<T extends BaseDto, C extends BaseCriteria> {
     };
 
     //const onUpload = (event:any) => {
+/*
 
 
     changePassword(username: string , password: string): Promise<AxiosResponse<any>> {
@@ -64,6 +73,7 @@ class AbstractService<T extends BaseDto, C extends BaseCriteria> {
         utilisateur.username = username;
         return axios.put('http://localhost:8036/api/admin/utilisateur/changePassword',utilisateur);
     }
+*/
 
 }
 

@@ -7,47 +7,37 @@ import {Toast} from "primereact/toast";
 import {InputSwitch} from "primereact/inputswitch";
 import {UtilisateurDto} from "../../../app/controller/model/Utilisateur.model";
 import {MessageService} from "../../../app/zynerator/service/MessageService";
-import {UtilisateurAdminService} from "../../../app/controller/service/admin/UtilisateurAdminService.service";
 import {AuthService} from "../../../app/zynerator/security/Auth.service";
 
 
 const Index = () => {
 
-
-    const [enabled, setEnabled] = useState(null);
     const [connectedUser, setConnectedUser] = useState<UtilisateurDto>(new UtilisateurDto());
-
     const [password, setPassword] = useState('');
-
     const authService = new AuthService();
-    const utilisateurAdminService = new UtilisateurAdminService();
     const [isEditMode, setIsEditMode] = useState(false);
     const [confirmPwd, setConfirmPwd] = useState('');
-    //  const showToast = useRef<Toast>();
-    const showToast = useRef(null); // Initialize the ref
+    const showToast = useRef(null);
 
     const handleModifyClick = () => {
         setIsEditMode(true);
     };
     const handlePwdChange = () => {
         if (password == confirmPwd) {
-
-            authService.changePassword(username, password)
+            authService.changePassword(connectedUser.username, password)
             MessageService.showSuccess(showToast, 'Password Changed ')
         } else if (password != confirmPwd) {
             MessageService.showError(showToast, 'Error password');
         }
-
     }
 
     useEffect(() => {
         const tokenDecoded = authService.decodeJWT();
         console.log(tokenDecoded)
-        setConnectedUser(prevState => ({...prevState,username:tokenDecoded.sub, enabled : tokenDecoded.enabled, email:tokenDecoded.email}))
+        setConnectedUser(prevState => ({...prevState, username: tokenDecoded.sub, enabled: tokenDecoded.enabled, email: tokenDecoded.email}))
     }, []);
 
     return (
-
         <div>
             <Toast ref={showToast}/>
             <TabView>
@@ -57,14 +47,14 @@ const Index = () => {
                             <div className="field col-6">
                                 <label htmlFor="username">Username</label>
                                 <InputText id="username" value={connectedUser.username}
-                                           onChange={(event) => connectedUser.username = (event.target.value)}/>
+                                           onChange={(event) => setConnectedUser({...connectedUser, username: event.target.value})}/>
                             </div>
                         </div>
                         <div className="field col-4">
                             <div className="field col-6">
                                 <label htmlFor="email">Email</label>
                                 <InputText id="email" value={connectedUser.email} disabled={!isEditMode}
-                                           onChange={(event) => connectedUser.email = (event.target.value)}/>
+                                           onChange={(event) => setConnectedUser({...connectedUser, email: event.target.value})}/>
                             </div>
                         </div>
                         <div className="field col-4">
@@ -72,11 +62,9 @@ const Index = () => {
                                 <label htmlFor="enabled">Enabled</label>
                                 <span className="p-float-label">
                         <InputSwitch id="enabled" checked={connectedUser.enabled} disabled={!isEditMode}
-                                     onChange={(event) => connectedUser.enabled = (event.value)}/>
+                                     onChange={(event) => setConnectedUser({...connectedUser, enabled: event.target.value})}/>
                         </span></div>
                         </div>
-
-
                     </div>
                 </TabPanel>
 
@@ -102,7 +90,6 @@ const Index = () => {
                         <div className="field col-4">
                             <div className="field col-8" style={{marginTop: '7px'}}>
                                 <br/>
-
                                 <Button label="Change" onClick={handlePwdChange}/>
                             </div>
                         </div>
