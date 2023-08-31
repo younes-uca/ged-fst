@@ -31,7 +31,6 @@ public class MinioController {
     @Autowired
     private MinIOService minIOService;
 
-
     //--- Check if bucket exists or not ---
     //curl "http://localhost:8036/minio/bucket/my-bucket"
     @Operation(summary = "Check if bucket exists or not")
@@ -67,7 +66,7 @@ public class MinioController {
 
 
     //--- Create a new bucket ---
-    //curl -X POST -F "bucketName=my-new-bucket" http://localhost:8036/minio/bucket
+    //curl -X POST -F "bucketName=naruto" http://localhost:8037/minio/bucket
     @Operation(summary = "Create a new bucket")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "create a new bucket",

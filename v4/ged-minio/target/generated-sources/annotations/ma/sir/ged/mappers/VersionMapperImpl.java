@@ -6,7 +6,7 @@ import ma.sir.ged.model.FichierVersion;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-18T00:12:33+0200",
+    date = "2023-08-18T16:19:18+0100",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 20.0.2 (Oracle Corporation)"
 )
 public class VersionMapperImpl implements VersionMapper {

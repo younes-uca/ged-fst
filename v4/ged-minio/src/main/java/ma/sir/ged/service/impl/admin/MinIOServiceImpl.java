@@ -80,21 +80,22 @@ public class MinIOServiceImpl implements MinIOService {
     public FichierDTO upload(MultipartFile file) {
         return this.upload(file, MinioConfig.getBucketName(), null);
     }
+
     @Override
     public FichierDTO upload(MultipartFile file, String bucket){
-        return this.uploadToPath(file, bucket, null);
+        return this.uploadToPath(file, bucket, "/");
     }
+
     public FichierDTO upload(MultipartFile file, String bucket, String path){
         return this.uploadToPath(file, bucket, path);
     }
+
     @Override
     public FichierDTO upload(MultipartFile file, String bucket, String superior, String entity) {
         Calendar now = Calendar.getInstance();
         String path= superior+"/"+entity+"/"+now.get(Calendar.YEAR)+"/"+now.get(Calendar.MONTH)+"/"+now.get(Calendar.DAY_OF_MONTH);
         return this.upload(file, bucket, path);
     }
-
-
 
     @Override
     public List<String> findAllDocuments(String bucket) {
@@ -148,7 +149,6 @@ public class MinIOServiceImpl implements MinIOService {
         return documents;
     }
 
-
     @Override
     public byte[] downloadAllDocumentsAsZip(String bucket) {
         if (Boolean.FALSE.equals(bucketExists(bucket))){
@@ -196,6 +196,7 @@ public class MinIOServiceImpl implements MinIOService {
             }
 
     }
+
     @Override
     public byte[] downloadAllDocumentsAsZip(String bucket, String path) {
         if (Boolean.FALSE.equals(bucketExists(bucket))){
@@ -243,8 +244,6 @@ public class MinIOServiceImpl implements MinIOService {
             }
 
     }
-
-
 
     @Override
     public String generateShareLink(Long fichierId, Integer days, Integer hours, Integer minutes, Integer seconds) {
@@ -323,7 +322,6 @@ public class MinIOServiceImpl implements MinIOService {
         }
     }
 
-
     public void deleteObjectByVersionId(final Fichier fichier, String versionId){
         RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
                 .bucket(fichier.getBucket())
@@ -336,9 +334,6 @@ public class MinIOServiceImpl implements MinIOService {
             throw new MinioException("Minio Error : whiling the deleting the file ( "+ fichier.getFullPath()+" ), error : "+e.getMessage());
         }
     }
-
-
-
 
     private FichierDTO uploadToPath(MultipartFile file, String bucket, String path) {
         if(Boolean.FALSE.equals(bucketExists(bucket))){
@@ -365,4 +360,5 @@ public class MinIOServiceImpl implements MinIOService {
         dto.setPath(fichierService.extractFilePath(item.objectName()));
         return dto;
     }
+
 }
