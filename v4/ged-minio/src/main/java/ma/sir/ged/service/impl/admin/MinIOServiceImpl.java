@@ -292,6 +292,7 @@ public class MinIOServiceImpl implements MinIOService {
         }
     }
 
+
     public byte[] downloadFileById(Long fichierId, String versionId) {
         Fichier fichier = fichierService.findFichierById(fichierId).orElseThrow(() -> new RuntimeException("No file found with the id " + fichierId));
         try {
@@ -299,7 +300,7 @@ public class MinIOServiceImpl implements MinIOService {
                             GetObjectArgs.builder()
                             .bucket(fichier.getBucket())
                             .object(fichier.getFullPath())
-                            .versionId(StringUtil.isNotEmpty(versionId) ? versionId : fichier.getLatestVersion().getVersionId())
+//                            .versionId(StringUtil.isNotEmpty(versionId) ? versionId : fichier.getLatestVersion().getVersionId())
                             .build());
             InputStream inputStream = response;
             byte[] fileBytes = readAllBytes(inputStream);

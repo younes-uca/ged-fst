@@ -1,4 +1,4 @@
-package  ma.sir.ged.security.ws;
+package  ma.sir.ged.zynerator.security.ws;
 
 import java.util.List;
 

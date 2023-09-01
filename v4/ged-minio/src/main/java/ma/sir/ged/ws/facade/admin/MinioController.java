@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import ma.sir.ged.dto.FichierDTO;
 import ma.sir.ged.service.facade.admin.MinIOService;
+import ma.sir.ged.service.impl.admin.MinIOServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,9 @@ public class MinioController {
     @Autowired
     private MinIOService minIOService;
 
+    @Autowired
+    private MinIOServiceImpl minIOService2;
+
     //--- Check if bucket exists or not ---
     //curl "http://localhost:8036/minio/bucket/my-bucket"
     @Operation(summary = "Check if bucket exists or not")
@@ -54,6 +58,7 @@ public class MinioController {
     }
 
 
+    // curl -X POST -F "file=folder.png" -F "path=/files/test" http://localhost:8037/minio//upload/file-with-path/ged
     @PostMapping("/upload/file-with-path/{bucket}")
     public FichierDTO upload(@RequestParam("file") MultipartFile file, @PathVariable String bucket, @RequestParam("path") String path) {
         return minIOService.upload(file, bucket, path);
@@ -64,6 +69,11 @@ public class MinioController {
         return minIOService.upload(file, bucket, superior, entity);
     }
 
+    // curl -o output.png -L http://localhost:8037/minio/file/download/id/105
+    @GetMapping("/file/download/id/{fichierId}")
+    public byte[] downloadFileById(@PathVariable Long fichierId, String versionId) {
+        return minIOService2.downloadFileById(fichierId, versionId);
+    }
 
     //--- Create a new bucket ---
     //curl -X POST -F "bucketName=naruto" http://localhost:8037/minio/bucket

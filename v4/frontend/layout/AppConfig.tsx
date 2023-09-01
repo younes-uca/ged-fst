@@ -13,7 +13,9 @@ import { AppConfigProps, LayoutConfig, LayoutState } from 'types/types';
 import { LayoutContext } from 'layout/context/layoutcontext';
 
 const BASE_URL = 'http://localhost:8036/';
+
 export const AUTH_URL = BASE_URL + 'login';
+export const CHANGE_PASSWORD_URL = BASE_URL + 'api/admin/users/changePassword';
 export const ROLES_URL = BASE_URL + "api/roles/";
 
 
